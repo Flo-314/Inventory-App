@@ -1,7 +1,27 @@
-var cd = require('../models/cd');
+var mongoose = require("mongoose")
+var Cd = require('../models/cd');
+var Author = require('../models/author');
+var Genre = require('../models/genre');
+var async = require('async');
+require("dotenv").config();
+
 
 exports.index = function(req, res) {
-    res.send('NOT IMPLEMENTED: Site Home Page');
+     async.parallel({
+        cd_count: function(callback) {
+            Cd.countDocuments({}, callback); // Pass an empty object as match condition to find all documents of this collection
+        },
+
+        author_count: function(callback) {
+            Author.countDocuments({}, callback);
+        },
+        genre_count: function(callback) {
+            Genre.countDocuments({}, callback);
+        }
+    }, function(err, results) {
+        console.log(results)
+        res.render('index', { title: 'Local Library Home', error: err, data: results });
+    }); 
 };
 
 // Display list of all cds.

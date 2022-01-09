@@ -1,3 +1,6 @@
+#sesase
+.env
+
 # Logs
 logs
 *.log

@@ -18,8 +18,6 @@ CdSchema.virtual("url").get(function () {
 const dbConnection = async () => {
   try {
     const uri = process.env.ATLAS;
-    console.log(uri);
-
     mongoose.connect(uri, { useNewUrlParser: true });
     const connection = mongoose.connection;
     connection.once("open", () => {
@@ -32,4 +30,4 @@ const dbConnection = async () => {
 
 //Export model
 module.exports = mongoose.model("Cd", CdSchema);
-exports.connection = dbConnection()
+module.exports.connection = dbConnection

@@ -3,10 +3,10 @@ var Cd = require('../models/cd');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 var async = require('async');
-require("dotenv").config();
+var DB = require("../models/db")
 
-
-exports.index = function(req, res) {
+exports.index =  async function(req, res) {
+    let connection = DB.connection()
      async.parallel({
         cd_count: function(callback) {
             Cd.countDocuments({}, callback); // Pass an empty object as match condition to find all documents of this collection

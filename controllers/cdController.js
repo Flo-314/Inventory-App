@@ -24,25 +24,23 @@ exports.index =  async function(req, res) {
 
 // Display list of all cds.
 exports.cd_list = async function(req, res) {
-    let cdList =  await Cd.find({})
-    console.log(cdList)
-    await res.render('cd_list', {cdList: cdList });
-
+    let cdList =  await Cd.find({}).sort({title:1}).populate("author genre")
+    await res.render('cd/cd_list', {cdList: cdList });
 };
 
 // Display detail page for a specific cd.
-exports.cd_detail = function(req, res) {
-    res.send('NOT IMPLEMENTED: cd detail: ' + req.params.id);
+exports.cd_detail = async function(req, res) {
+    let cd = await Cd.findById(req.params.id).populate("author genre")
+    await res.render('cd/cd_details', {cd: cd });
+
 };
 
 // Display cd create form on GET.
 exports.cd_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: cd create GET');
 };
 
 // Handle cd create on POST.
 exports.cd_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: cd create POST');
 };
 
 // Display cd delete form on GET.

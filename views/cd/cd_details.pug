@@ -1,0 +1,13 @@
+extends ../layout
+block content
+        
+        h1 title   #{cd.title }
+        h3 author   
+           a(href="../authors/"+cd.author.name)  #{cd.author.name }
+        p description  #{cd.description }
+        h4 price  #{cd.price }
+        h4 stock  #{cd.stock}
+        h3 genres:
+        for genre in cd.genre 
+
+            a(href="../genres/"+genre.id)=genre.name  

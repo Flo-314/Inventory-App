@@ -3,10 +3,8 @@ var Cd = require('../models/cd');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 var async = require('async');
-var DB = require("../models/db")
 
 exports.index =  async function(req, res) {
-    let connection = DB.connection()
      async.parallel({
         cd_count: function(callback) {
             Cd.countDocuments({}, callback); // Pass an empty object as match condition to find all documents of this collection
@@ -25,8 +23,11 @@ exports.index =  async function(req, res) {
 };
 
 // Display list of all cds.
-exports.cd_list = function(req, res) {
-    res.send('NOT IMPLEMENTED: cd list');
+exports.cd_list = async function(req, res) {
+    let cdList =  await Cd.find({})
+    console.log(cdList)
+    await res.render('cd_list', {cdList: cdList });
+
 };
 
 // Display detail page for a specific cd.

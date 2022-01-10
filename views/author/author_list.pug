@@ -3,5 +3,11 @@ extends ../layout
 block content
   h1 Author List:
   for author in authorList
-    p
+    if author.date_of_death
+      p
+        a(href="../author/"+author.id) #{author.name}
+        span (#{author.date_of_birth}-#{author.date_of_death})
+    else 
+      p
         a(href="../author/"+author.id) #{author.name} 
+        span (#{author.date_of_birth}-Actuality)

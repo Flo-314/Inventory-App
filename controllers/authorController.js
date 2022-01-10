@@ -6,15 +6,8 @@ var async = require("async");
 
 // Display list of all Authors.
 exports.author_list = async function (req, res) {
-  let authorList = await Cd.find({}, "author")
-    .sort({ name: 1 })
-    .populate("author");
-    let realAuthorList = []
-    authorList.forEach(fakeauthor => {
-        realAuthorList.push(fakeauthor.author)
-    });
-    console.log(realAuthorList)
-  await res.render("author/author_list", { authorList: realAuthorList });
+  let authorList = await Author.find({})
+  await res.render("author/author_list", { authorList: authorList });
 };
 
 // Display detail page for a specific Author.

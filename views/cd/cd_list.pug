@@ -15,6 +15,6 @@ block content
     p genres:
     for genre in cd.genre 
       p 
-        a(href=genre.id) #{genre.name}  
+        a(href="genre/"+genre.id) #{genre.name}  
     
     hr

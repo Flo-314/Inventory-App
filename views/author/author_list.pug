@@ -1,1 +1,7 @@
 extends ../layout
+
+block content
+  h1 Author List:
+  for author in authorList
+    p
+        a(href="../author/"+author.id) #{author.name} 

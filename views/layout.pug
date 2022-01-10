@@ -2,6 +2,26 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='/stylesheets/style.css')
   body
+    header
+      nav
+        ul
+          li
+            a(href='/') Catalog(stock)
+          li
+            a(href='../catalog/cds') CD List
+          li
+            a(href='../catalog/authors') Author List
+          li
+            a(href='../catalog/genres') Genre List
+          li 
+            a(href='../catalog/cd/create') Introduce a CD
+          li
+            a(href='../catalog/author/create') Introduce an Author 
+          li
+            a(href='../catalog/genre/create') Introduce a Genre 
+      div
+        a(href='logIn')  Log in
+  main 
     block content

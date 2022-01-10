@@ -29,8 +29,7 @@ exports.genre_detail = async function (req, res) {
 
 // Display Genre create form on GET.
 exports.genre_create_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre create GET");
-};
+  res.render("genre/genre_form");};
 
 // Handle Genre create on POST.
 exports.genre_create_post = function (req, res) {

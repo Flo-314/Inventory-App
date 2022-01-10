@@ -39,7 +39,9 @@ exports.cd_detail = async function(req, res) {
 
 // Display cd create form on GET.
 exports.cd_create_get = function(req, res) {
-};
+    res.render("cd/cd_form");};
+
+;
 
 // Handle cd create on POST.
 exports.cd_create_post = function(req, res) {

@@ -12,6 +12,7 @@ exports.author_list = async function (req, res) {
 
 // Display detail page for a specific Author.
 exports.author_detail = async function (req, res) {
+  console.log("AAAAAAAAAA")
   let author = await Author.findById(req.params.id);
   let authorCds = await Cd.find({ author: req.params.id });
   let authorGenre = await Cd.find({ author: req.params.id }, "genres").populate(
@@ -30,7 +31,7 @@ exports.author_detail = async function (req, res) {
 
 // Display Author create form on GET.
 exports.author_create_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author create GET");
+  res.render("author/author_form")
 };
 
 // Handle Author create on POST.

@@ -1,1 +1,13 @@
 extends ../layout
+block content
+
+    h1 Author: #{author.name}
+    #bookList
+        h2 Author Cds:
+        for cd in authorCds 
+            p  
+                a(href="../cd/" + cd.id)  #{cd.title }
+    h2 Author Genres: 
+    for genre in authorGenre
+        p
+            a(href="../genre/"+genre.id) #{genre.name} 

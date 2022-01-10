@@ -2,10 +2,9 @@ extends ../layout
 
 block content
   h1 CD LIST!!!!!!!!!!!!!!!!!
-
   for cd in cdList
     p title  #{cd.title }
-    p author  #{cd.author.name }
+    p author  #{cd.author.id }
     p description  #{cd.description }
     p price  #{cd.price }
     p stock  #{cd.stock}

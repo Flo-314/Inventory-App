@@ -31,9 +31,11 @@ exports.cd_list = async function(req, res) {
 // Display detail page for a specific cd.
 exports.cd_detail = async function(req, res) {
     let cd = await Cd.findById(req.params.id).populate("author genre")
-    await res.render('cd/cd_details', {cd: cd });
+    console.log(cd)
 
+    await res.render('cd/cd_details', {cd: cd });
 };
+
 
 // Display cd create form on GET.
 exports.cd_create_get = function(req, res) {

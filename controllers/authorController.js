@@ -38,7 +38,7 @@ exports.author_create_get = function (req, res) {
 // Handle Author create on POST.
 exports.author_create_post = [
   // Validate and santise the name field.
-  body("authorName", "Genre name must contain at least 3 characters")
+  body("authorName", "Author name must contain at least 3 characters")
     .trim()
     .isLength({ min: 3 })
     .escape(),
@@ -52,8 +52,7 @@ exports.author_create_post = [
     console.log(req.body)
  // si hay errrores
     if (!errors.isEmpty()) {
-      res.render("author/author_form", { error: errors.array() });
-      console.log("BIEN BIEN")
+      res.render("author/author_form", { errors: errors.array() });
       //si no hay errores
     } else {
       let url  = "/"

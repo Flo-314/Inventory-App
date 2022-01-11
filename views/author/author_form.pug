@@ -11,3 +11,9 @@ block content
         label(for='deathDate') Enter date of death: 
         input(id='deathDate' type='date' name='deathDate' placeholder='Enter the Author deathday').
         input(type='submit' value='OK')
+
+
+
+        if errors
+            for error in errors 
+                p=error.msg

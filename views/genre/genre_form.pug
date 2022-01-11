@@ -5,3 +5,7 @@ block content
         label(for='genreName') Enter name: 
         input(id='genreName' type='text' name='genreName' placeholder='Enter the Genre Name')
         input(type='submit' value='OK')
+
+        if errors
+            for error in errors 
+                p=error.msg

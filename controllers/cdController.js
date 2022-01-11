@@ -68,6 +68,9 @@ exports.cd_create_post = [
     .isLength({ min: 1 })
     .escape(),
   body("cdGenre").escape(),
+  body("cdStock", "stock must not be empty").trim().isLength({ min: 1 }).isNumeric().escape(),
+  body("cdPrice", "price must not be empty").trim().isLength({ min: 1 }).isNumeric().escape(),
+
 
   // Process request after validation and sanitization.
   async (req, res, next) => {
@@ -87,6 +90,8 @@ exports.cd_create_post = [
           author: req.body.cdAuthor,
           description: req.body.cdDescription,
           genre: req.body.cdGenre,
+          stock: req.body.cdStock,
+          price: req.body.cdPrice
         });
         newCd.save((err) => {
           if (err) {

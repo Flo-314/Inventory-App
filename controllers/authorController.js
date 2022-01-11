@@ -49,12 +49,12 @@ exports.author_create_post = [
     .optional({ checkFalsy: true })
     .isISO8601()
     .toDate(),
-  
+
   // Process request after validation and sanitization.
   async (req, res, next) => {
     const errors = validationResult(req);
     // si hay errrores
-    
+
     if (!errors.isEmpty()) {
       res.render("author/author_form", { errors: errors.array() });
       //si no hay errores
@@ -86,18 +86,27 @@ exports.author_create_post = [
 // Handle Author delete on POST.
 exports.author_delete_post = async function (req, res) {
   Author.findByIdAndRemove(req.body.authorId, async function deleteAuthor(err) {
-  
-    if (err) { return next(err); }
-    res.redirect('/catalog/authors');
-})
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/catalog/authors");
+  });
 };
 
 // Display Author update form on GET.
 exports.author_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author update GET");
+  res.render("author/author_update");
 };
 
 // Handle Author update on POST.
 exports.author_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author update POST");
+  Author.replaceOne(
+    { id: req.body.id },
+    {
+      name: req.body.name,
+      date_of_birth: req.body.dateOfBirth,
+      date_of_death: req.body.dateOfDeath,
+    }
+  );
+  res.render("/catalog/author/" + req.body.id);
 };

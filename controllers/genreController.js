@@ -89,5 +89,11 @@ exports.genre_update_get = function (req, res) {
 
 // Handle Genre update on POST.
 exports.genre_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre update POST");
+  Genre.replaceOne(
+    { id: req.body.id },
+    {
+      name: req.body.genre
+    }
+  );
+  res.render("/catalog/genre/" + req.body.id);
 };

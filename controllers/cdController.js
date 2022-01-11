@@ -119,7 +119,6 @@ exports.cd_create_post = [
 
 // Handle cd delete on POST.
 exports.cd_delete_post = function (req, res) {
-  console.log(req.body.cdId)
    Cd.findByIdAndRemove(req.body.cdId, async function deleteCd(err) {
     if (err) {
       return next(err);
@@ -129,11 +128,20 @@ exports.cd_delete_post = function (req, res) {
 };
 
 // Display cd update form on GET.
-exports.cd_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: cd update GET");
+exports.cd_update_get =async function (req, res) {
+  res.render("cd/cd_update");
 };
 
 // Handle cd update on POST.
 exports.cd_update_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: cd update POST");
-};
+  Cd.replaceOne(
+    { id: req.body.id },
+    {
+      title: req.body.title,
+      author: req.body.author,
+      description: req.body.description,
+      price: req.body.price,
+      stock: req.body.price,
+      genre: req.body.genre
+    }
+  );};

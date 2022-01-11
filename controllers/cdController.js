@@ -3,6 +3,7 @@ var Cd = require('../models/cd');
 var Author = require('../models/author');
 var Genre = require('../models/genre');
 var async = require('async');
+const { body } = require("express-validator");
 
 exports.index =  async function(req, res) {
      async.parallel({
@@ -39,12 +40,14 @@ exports.cd_detail = async function(req, res) {
 
 // Display cd create form on GET.
 exports.cd_create_get = function(req, res) {
-    res.render("cd/cd_form");};
+    res.render("cd/cd_form");
+};
 
 ;
 
 // Handle cd create on POST.
 exports.cd_create_post = function(req, res) {
+console.log("aaaaaaaaaaaaaa")
 };
 
 // Display cd delete form on GET.

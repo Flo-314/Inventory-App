@@ -1,11 +1,7 @@
 extends ../layout
 block content
 
-    form(action='/' method='post')
-        label(for='') Enter name: 
-        input(id='' type='text' name='' placeholder='')
-        label(for='') Enter name: 
-        input(id='' type='text' name='' placeholder='')
-        label(for='') Enter name: 
-        input(id='' type='text' name='' placeholder='')
+    form(action='create' method='post')
+        label(for='genreName') Enter name: 
+        input(id='genreName' type='text' name='genreName' placeholder='Enter the Genre Name')
         input(type='submit' value='OK')

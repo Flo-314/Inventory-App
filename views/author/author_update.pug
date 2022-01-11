@@ -1,0 +1,19 @@
+extends ../layout
+block content
+
+    form(action='create' method='post')
+        label(for='authorName') Enter name: 
+        input(id='authorName' type='text' name='authorName' placeholder='Enter the Author Name').
+
+        label(for='birthDate') Enter date of Birth: 
+        input(id='birthDate' type='date' name='birthDate' placeholder='Enter the Author birthday').
+       
+        label(for='deathDate') Enter date of death: 
+        input(id='deathDate' type='date' name='deathDate' placeholder='Enter the Author deathday').
+        input(type='submit' value='OK')
+
+
+
+        if errors
+            for error in errors 
+                p=error.msg

@@ -2,5 +2,12 @@ extends ../layout
 block content
 
     h1 Update Genre
+    form(action='update' method='post')
+        label(for='genreName') Enter name: 
+        input(id='genreName' type='text' name='genreName' placeholder='Enter the Genre Name' value=genre)
+        input(type="text" class="hidden" value= id  name="genreId")
+        input(type='submit' value='OK')
 
-    form(action="/" method="post") 
+        if errors
+            for error in errors 
+                p=error.msg

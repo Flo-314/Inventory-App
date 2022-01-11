@@ -45,55 +45,54 @@ exports.genre_create_post = [
   // Process request after validation and sanitization.
   async (req, res, next) => {
     const errors = validationResult(req);
-// si hay errrores
+    // si hay errrores
     if (!errors.isEmpty()) {
       res.render("genre/genre_form", { errors: errors.array() });
       //si no hay errores
     } else {
-      let url  = "/"
+      let url = "/";
       let search = await Genre.findOne({ name: req.body.genreName });
-// si no existe el genero
-      if (search === null||search.length === 0) {
+      // si no existe el genero
+      if (search === null || search.length === 0) {
         let newGenre = new Genre({ name: req.body.genreName });
         newGenre.save((err) => {
           if (err) {
             return next(error);
           }
-          url = "/catalog/genre/"+newGenre.id
+          url = "/catalog/genre/" + newGenre.id;
           res.redirect(url);
         });
       } else {
-        url = "/catalog/genre/"+search.id
+        url = "/catalog/genre/" + search.id;
         res.redirect(url);
       }
     }
   },
 ];
 
-
 // Handle Genre delete on POST.
 exports.genre_delete_post = function (req, res) {
-  console.log(req.body.genreId)
-   Genre.findByIdAndRemove(req.body.genreId, async function deleteGenre(err) {
+  Genre.findByIdAndRemove(req.body.genreId, async function deleteGenre(err) {
     if (err) {
       return next(err);
     }
     res.redirect("/catalog/genres");
-  }); 
+  });
 };
 
 // Display Genre update form on GET.
-exports.genre_update_get = function (req, res) {
-  res.render("genre/genre_update");
+exports.genre_update_get = async function (req, res) {
+  let id = req.url.slice(7).slice(0, -7);
+  let genre = await Genre.findOne({ _id: id });
+  res.render("genre/genre_update", { genre: genre.name, id: id });
 };
 
 // Handle Genre update on POST.
-exports.genre_update_post = function (req, res) {
-  Genre.replaceOne(
-    { id: req.body.id },
-    {
-      name: req.body.genre
-    }
-  );
-  res.render("/catalog/genre/" + req.body.id);
+exports.genre_update_post = async function (req, res, next) {
+  await Genre.updateOne(
+    { _id: req.body.genreId },
+    { $set: { name: req.body.genreName } }
+  )
+
+  res.redirect("/catalog/genre/" + req.body.genreId);
 };

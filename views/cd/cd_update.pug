@@ -1,0 +1,37 @@
+extends ../layout
+block content
+    form(action='create' method='post')
+
+
+        label(for='cdTitle') Enter title: 
+        input(id='cdTitle' type='text' name='cdTitle' placeholder='Enter the cd Title')
+
+        label(for='cdAuthor') Enter Author: 
+        select(id='cdAuthor' type='select' name='cdAuthor')
+            if cdAuthors
+                for cdAuthor in cdAuthors
+                    option(value=cdAuthor.id) #{cdAuthor.name} 
+
+        label(for='cdDescription') Enter description: 
+        input(id='cdDescription' type='text' name='cdDescription' placeholder='Enter the cd description')
+      
+        label(for='cdPrice') Enter price: 
+        input(id='cdPrice' type='number' name='cdPrice' placeholder='Enter the cd price')
+       
+        label(for='cdStock') Enter stock: 
+        input(id='cdStock' type='number' name='cdStock' placeholder='Enter the cd stock')
+    
+
+        label(for='cdGenre') Enter genre: 
+            if cdGenres
+                for cdGenre in cdGenres
+                    input(id='cdGenre' type='checkbox' name='cdGenre' value=cdGenre.id) 
+                    span #{cdGenre.name}
+
+
+
+        input(type='submit' value='OK')
+
+        if errors
+            for error in errors 
+                p=error.msg

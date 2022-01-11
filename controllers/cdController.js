@@ -46,9 +46,41 @@ exports.cd_create_get = function(req, res) {
 ;
 
 // Handle cd create on POST.
-exports.cd_create_post = function(req, res) {
-console.log("aaaaaaaaaaaaaa")
-};
+exports.cd_create_post =[
+/*     // Validate and santise the name field.
+    body("genreName", "Genre name must contain at least 3 characters")
+      .trim()
+      .isLength({ min: 3 })
+      .escape(),
+  
+    // Process request after validation and sanitization.
+    async (req, res, next) => {
+      const errors = validationResult(req);
+  // si hay errrores
+      if (!errors.isEmpty()) {
+        res.render("genre/genre_form", { error: errors.array() });
+        console.log("BIEN BIEN")
+        //si no hay errores
+      } else {
+        let url  = "/"
+        let search = await Genre.findOne({ name: req.body.genreName });
+  // si no existe el genero
+        if (search === null||search.length === 0) {
+          let newGenre = new Genre({ name: req.body.genreName });
+          newGenre.save((err) => {
+            if (err) {
+              return next(error);
+            }
+            url = "/catalog/genre/"+newGenre.id
+            res.redirect(url);
+          });
+        } else {
+          url = "/catalog/genre/"+search.id
+          res.redirect(url);
+        }
+      }
+    }, */
+  ];
 
 // Display cd delete form on GET.
 exports.cd_delete_get = function(req, res) {

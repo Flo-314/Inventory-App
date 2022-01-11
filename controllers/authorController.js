@@ -83,14 +83,13 @@ exports.author_create_post = [
   },
 ];
 
-// Display Author delete form on GET.
-exports.author_delete_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author delete GET");
-};
-
 // Handle Author delete on POST.
-exports.author_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Author delete POST");
+exports.author_delete_post = async function (req, res) {
+  Author.findByIdAndRemove(req.body.authorId, async function deleteAuthor(err) {
+  
+    if (err) { return next(err); }
+    res.redirect('/catalog/authors');
+})
 };
 
 // Display Author update form on GET.

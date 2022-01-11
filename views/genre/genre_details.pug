@@ -15,6 +15,6 @@ block content
       li 
         a(href="../author/"+author.id ) #{author.name}
   
-  form(action="delete" method='post')
+  form(action=genre.id+"/delete" method='post')
      input(type="text" value=genre.id class="hidden" name="genreId")
      input(type='submit' value='Delete Genre')

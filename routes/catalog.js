@@ -17,8 +17,6 @@ router.get('/cd/create', cd_controller.cd_create_get);
 // POST request for creating cd.
 router.post('/cd/create', cd_controller.cd_create_post);
 
-// GET request to delete cd.
-router.get('/cd/:id/delete', cd_controller.cd_delete_get);
 
 // POST request to delete cd.
 router.post('/cd/:id/delete', cd_controller.cd_delete_post);
@@ -43,8 +41,6 @@ router.get('/author/create', author_controller.author_create_get);
 // POST request for creating Author.
 router.post('/author/create', author_controller.author_create_post);
 
-// GET request to delete Author.
-router.get('/author/:id/delete', author_controller.author_delete_get);
 
 // POST request to delete Author.
 router.post('/author/:id/delete', author_controller.author_delete_post);
@@ -68,9 +64,6 @@ router.get('/genre/create', genre_controller.genre_create_get);
 
 //POST request for creating Genre.
 router.post('/genre/create', genre_controller.genre_create_post);
-
-// GET request to delete Genre.
-router.get('/genre/:id/delete', genre_controller.genre_delete_get);
 
 // POST request to delete Genre.
 router.post('/genre/:id/delete', genre_controller.genre_delete_post);

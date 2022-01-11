@@ -13,6 +13,6 @@ block content
       a(href="../genre/"+genre.id)=genre.name  
 
 
-   form(action='delete' method='post')
+   form(action=cd.id+"/delete" method='post')
       input(type="text" value=cd.id class="hidden" name="cdId")
       input(type='submit' value='Delete CD')

@@ -13,7 +13,7 @@ block content
             a(href="../genre/"+genre.id) #{genre.name} 
     
 
-    form(action='delete' method='post')
-        input(type="text" value=author.id class="hidden" name="autorId")
+    form(action=author.id+"/delete"  method='post')
+        input(type="text" value=author.id class="hidden" name="authorId")
         input(type='submit' value='Delete Author')
     

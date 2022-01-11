@@ -16,3 +16,7 @@ block content
    form(action=cd.id+"/delete" method='post')
       input(type="text" value=cd.id class="hidden" name="cdId")
       input(type='submit' value='Delete CD')
+
+   
+   button 
+      a(href=cd.id+"/update") Update the cd

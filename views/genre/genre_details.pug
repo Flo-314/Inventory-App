@@ -18,3 +18,6 @@ block content
   form(action=genre.id+"/delete" method='post')
      input(type="text" value=genre.id class="hidden" name="genreId")
      input(type='submit' value='Delete Genre')
+
+  button 
+    a(href=genre.id+"/update") Update the Genre

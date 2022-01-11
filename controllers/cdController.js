@@ -66,9 +66,16 @@ exports.cd_create_post = [
     .isLength({ min: 1 })
     .escape(),
   body("cdGenre").escape(),
-  body("cdStock", "stock must not be empty").trim().isLength({ min: 1 }).isNumeric().escape(),
-  body("cdPrice", "price must not be empty").trim().isLength({ min: 1 }).isNumeric().escape(),
-
+  body("cdStock", "stock must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .isNumeric()
+    .escape(),
+  body("cdPrice", "price must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .isNumeric()
+    .escape(),
 
   // Process request after validation and sanitization.
   async (req, res, next) => {
@@ -77,7 +84,11 @@ exports.cd_create_post = [
     if (!errors.isEmpty()) {
       let authors = await Author.find({});
       let genres = await Genre.find({});
-      res.render("cd/cd_form", { cdGenres: genres, cdAuthors: authors,  errors: errors.array() });
+      res.render("cd/cd_form", {
+        cdGenres: genres,
+        cdAuthors: authors,
+        errors: errors.array(),
+      });
     } else {
       let url = "/";
       let search = await Cd.findOne({ title: req.body.cdTitle });
@@ -89,7 +100,7 @@ exports.cd_create_post = [
           description: req.body.cdDescription,
           genre: req.body.cdGenre,
           stock: req.body.cdStock,
-          price: req.body.cdPrice
+          price: req.body.cdPrice,
         });
         newCd.save((err) => {
           if (err) {
@@ -106,14 +117,15 @@ exports.cd_create_post = [
   },
 ];
 
-// Display cd delete form on GET.
-exports.cd_delete_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: cd delete GET");
-};
-
 // Handle cd delete on POST.
 exports.cd_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: cd delete POST");
+  console.log(req.body.cdId)
+   Cd.findByIdAndRemove(req.body.cdId, async function deleteCd(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/catalog/cds");
+  }); 
 };
 
 // Display cd update form on GET.

@@ -70,19 +70,21 @@ exports.genre_create_post = [
   },
 ];
 
-// Display Genre delete form on GET.
-exports.genre_delete_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre delete GET");
-};
 
 // Handle Genre delete on POST.
 exports.genre_delete_post = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre delete POST");
+  console.log(req.body.genreId)
+   Genre.findByIdAndRemove(req.body.genreId, async function deleteGenre(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/catalog/genres");
+  }); 
 };
 
 // Display Genre update form on GET.
 exports.genre_update_get = function (req, res) {
-  res.send("NOT IMPLEMENTED: Genre update GET");
+  res.render("genre/genre_update");
 };
 
 // Handle Genre update on POST.

@@ -48,7 +48,6 @@ exports.genre_create_post = [
 // si hay errrores
     if (!errors.isEmpty()) {
       res.render("genre/genre_form", { errors: errors.array() });
-      console.log("BIEN BIEN")
       //si no hay errores
     } else {
       let url  = "/"

@@ -53,9 +53,8 @@ exports.author_create_post = [
   // Process request after validation and sanitization.
   async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors);
-    console.log(req.body);
     // si hay errrores
+    
     if (!errors.isEmpty()) {
       res.render("author/author_form", { errors: errors.array() });
       //si no hay errores

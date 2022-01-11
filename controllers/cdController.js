@@ -21,7 +21,6 @@ exports.index = async function (req, res) {
       },
     },
     function (err, results) {
-      console.log(results);
       res.render("index", {
         title: "Local Library Home",
         error: err,
@@ -40,7 +39,6 @@ exports.cd_list = async function (req, res) {
 // Display detail page for a specific cd.
 exports.cd_detail = async function (req, res) {
   let cd = await Cd.findById(req.params.id).populate("author genre");
-  console.log(cd);
 
   await res.render("cd/cd_details", { cd: cd });
 };

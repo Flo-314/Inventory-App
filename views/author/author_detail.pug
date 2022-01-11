@@ -11,3 +11,8 @@ block content
     for genre in authorGenre
         p
             a(href="../genre/"+genre.id) #{genre.name} 
+    
+
+    form(action='delete' method='post')
+        input(type='submit' value='OK')
+    

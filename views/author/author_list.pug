@@ -5,9 +5,9 @@ block content
   for author in authorList
     if author.date_of_death
       p
-        a(href="../author/"+author.id) #{author.name}
+        a(href="author/"+author.id) #{author.name}
         span (#{author.date_of_birth}-#{author.date_of_death})
     else 
       p
-        a(href="../author/"+author.id) #{author.name} 
+        a(href="author/"+author.id) #{author.name} 
         span (#{author.date_of_birth}-Actuality)

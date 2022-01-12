@@ -1,7 +1,7 @@
 extends ../layout
 block content
 
-    form(action='create' method='post')
+    form(action='create' method='post' enctype="multipart/form-data") 
         label(for='authorName') Enter name: 
         input(id='authorName' type='text' name='authorName' placeholder='Enter the Author Name').
 
@@ -10,7 +10,9 @@ block content
        
         label(for='deathDate') Enter date of death: 
         input(id='deathDate' type='date' name='deathDate' placeholder='Enter the Author deathday').
+        input(type="file" name="authorImage")
         input(type='submit' value='OK')
+
 
 
 

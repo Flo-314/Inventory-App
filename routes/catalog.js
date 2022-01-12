@@ -14,7 +14,7 @@ var genre_controller = require('../controllers/genreController');
 router.get('/', cd_controller.index);
 
 // GET request for creating a cd. NOTE This must come before routes that display cd (uses id).
-router.get('/cd/create', cd_controller.cd_create_get);
+router.get('/cd/create',upload.single("cdImage"), cd_controller.cd_create_get);
 
 // POST request for creating cd.
 router.post('/cd/create', cd_controller.cd_create_post);
@@ -38,7 +38,7 @@ router.get('/cds', cd_controller.cd_list);
 /// AUTHOR ROUTES ///
 
 // GET request for creating Author. NOTE This must come before route for id (i.e. display author).
-router.get('/author/create', author_controller.author_create_get);
+router.get('/author/create',upload.single("authorImage"), author_controller.author_create_get);
 
 // POST request for creating Author.
 router.post('/author/create', author_controller.author_create_post);

@@ -1,6 +1,6 @@
 extends ../layout
 block content
-    form(action='create' method='post')
+    form(action='create' method='post' enctype="multipart/form-data")
 
 
         label(for='cdTitle') Enter title: 
@@ -32,6 +32,7 @@ block content
 
 
 
+        input(type="file" name="cdImage")
 
         input(type='submit' value='OK')
 

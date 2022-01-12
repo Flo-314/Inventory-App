@@ -104,7 +104,7 @@ exports.cd_create_post = [
         });
         newCd.save((err) => {
           if (err) {
-            return next(error);
+            return next(err);
           }
           url = "/catalog/cd/" + newCd.id;
           res.redirect(url);
@@ -119,75 +119,74 @@ exports.cd_create_post = [
 
 // Handle cd delete on POST.
 exports.cd_delete_post = function (req, res) {
-   Cd.findByIdAndRemove(req.body.cdId, async function deleteCd(err) {
+  Cd.findByIdAndRemove(req.body.cdId, async function deleteCd(err) {
     if (err) {
       return next(err);
     }
     res.redirect("/catalog/cds");
-  }); 
+  });
 };
 
 // Display cd update form on GET.
-exports.cd_update_get =async function (req, res) {
+exports.cd_update_get = async function (req, res) {
   let id = req.url.slice(4).slice(0, -7);
-  let cd = await Cd.find({"_id": id})
+  let cd = await Cd.find({ _id: id });
   let authors = await Author.find({});
-  let genres = await Genre.find({})
-/*   let title = await Cd.find({})
- */  res.render("cd/cd_update", {cdGenres: genres, cdAuthors: authors, cd:cd });
+  let genres = await Genre.find({});
+  /*   let title = await Cd.find({})
+   */ res.render("cd/cd_update", {
+    cdGenres: genres,
+    cdAuthors: authors,
+    cd: cd,
+  });
 };
 
 // Handle cd update on POST.
-exports.cd_update_post = [  body("cdTitle", "The Title must contain at least 3 characters")
-.trim()
-.isLength({ min: 3 })
-.escape(),
-body("cdAuthor", "Author must not be empty.")
-.trim()
-.isLength({ min: 1 })
-.escape(),
-body("cdDescription", "Description must not be empty.")
-.trim()
-.isLength({ min: 1 })
-.escape(),
-body("cdGenre").escape(),
-body("cdStock", "stock must not be empty")
-.trim()
-.isLength({ min: 1 })
-.isNumeric()
-.escape(),
-body("cdPrice", "price must not be empty")
-.trim()
-.isLength({ min: 1 })
-.isNumeric()
-.escape(),
-async (req, res, next) => {
-  const errors = validationResult(req);
-  console.log(req.body.id)
-  if (!errors.isEmpty()) {
-    res.redirect("/catalog/cd/" + req.body.id   )
-
-  } else {
-    let search = await Cd.findOne({ title: req.body.cdTitle });
-    // si no existe el genero
-    if (search === null || search.length === 0) {
-      await Cd.updateOne(
-        { _id: req.body.id },
-        {
-          $set: {
-            title: req.body.cdTitle,
-            author: req.body.cdAuthor,
-            description: req.body.cdDescription,
-            price: req.body.cdPrice,
-            stock: req.body.cdStock,
-            genre: req.body.cdGenre,
-          },
-        }
-      )
-      console.log("AAA")
-      res.redirect("/catalog/cd/" + req.body.id)
+exports.cd_update_post = [
+  body("cdTitle", "The Title must contain at least 3 characters")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("cdAuthor", "Author must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("cdDescription", "Description must not be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("cdGenre").escape(),
+  body("cdStock", "stock must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .isNumeric()
+    .escape(),
+  body("cdPrice", "price must not be empty")
+    .trim()
+    .isLength({ min: 1 })
+    .isNumeric()
+    .escape(),
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    console.log(req.body);
+    if (!errors.isEmpty()) {
+      res.redirect("/catalog/cd/" + req.body.id);
     } else {
-      res.redirect("/catalog/cd/" + req.body.id)
+     
+        await Cd.updateOne(
+          { _id: req.body.id },
+          {
+            $set: {
+              title: req.body.cdTitle,
+              author: req.body.cdAuthor,
+              description: req.body.cdDescription,
+              price: req.body.cdPrice,
+              stock: req.body.cdStock,
+              genre: req.body.cdGenre,
+            },
+          }
+        );
+        res.redirect("/catalog/cd/" + req.body.id);
     }
-  }
-},]
+  },
+];

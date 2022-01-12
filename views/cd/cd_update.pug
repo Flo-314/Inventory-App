@@ -21,7 +21,7 @@ block content
     
 
         label(for='cdGenre') Enter genre: 
-        select(id='cdAuthor' type='select' name='cdAuthor')
+        select(id='cdGenre' type='select' name='cdGenre')
             if cdGenres
                 for cdGenre in cdGenres
                     option(value=cdGenre.id) #{cdGenre.name} 

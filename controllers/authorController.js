@@ -94,19 +94,59 @@ exports.author_delete_post = async function (req, res) {
 };
 
 // Display Author update form on GET.
-exports.author_update_get = function (req, res) {
-  res.render("author/author_update");
+exports.author_update_get = async function (req, res) {
+  let id = req.url.slice(8).slice(0, -7);
+  let author = await Author.findOne({ _id: id });
+  res.render("author/author_update", {
+    authorId: author.name,
+    id: author.id,
+    authorBirth: author.date_of_birth,
+    authorDeath: author.date_of_death,
+  });
 };
 
 // Handle Author update on POST.
-exports.author_update_post = function (req, res) {
-  Author.replaceOne(
-    { id: req.body.id },
-    {
-      name: req.body.name,
-      date_of_birth: req.body.dateOfBirth,
-      date_of_death: req.body.dateOfDeath,
+exports.author_update_post = [
+  // Validate and santise the name field.
+  body("authorName", "Author name must contain at least 3 characters")
+    .trim()
+    .isLength({ min: 3 })
+    .escape(),
+  body("birthDate", "Invalid date of birth")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+  body("deathDate", "Invalid date of death")
+    .optional({ checkFalsy: true })
+    .isISO8601()
+    .toDate(),
+  async function (req, res) {
+    const errors = validationResult(req);
+    // si hay errrores
+
+    if (!errors.isEmpty()) {
+      res.redirect("/catalog/author/" + req.body.id)
+      //si no hay errores
+    } else {
+      let search = await Author.findOne({ name: req.body.authorName });
+      // si no existe el author
+      if (search === null || Author.length === 0) {
+        await Author.updateOne(
+          { _id: req.body.id },
+          {
+            $set: {
+              name: req.body.authorName,
+              date_of_birth: req.body.authorBirth,
+              date_of_death: req.body.authorDeath,
+              id: req.body.authorId,
+            },
+          }
+        )
+        res.redirect("/catalog/author/" + req.body.id)
+      } else {
+        res.redirect("/catalog/author/" + req.body.id)
+      }
     }
-  );
-  res.render("/catalog/author/" + req.body.id);
-};
+  },
+
+];

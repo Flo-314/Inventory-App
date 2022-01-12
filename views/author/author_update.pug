@@ -1,15 +1,16 @@
 extends ../layout
 block content
-
-    form(action='create' method='post')
+    form(action='update' method='post')
         label(for='authorName') Enter name: 
-        input(id='authorName' type='text' name='authorName' placeholder='Enter the Author Name').
+        input(id='authorName' type='text' name='authorName' placeholder='Enter the Author Name' value=authorId).
 
         label(for='birthDate') Enter date of Birth: 
-        input(id='birthDate' type='date' name='birthDate' placeholder='Enter the Author birthday').
+        input(id='birthDate' type='date' name='birthDate' placeholder='Enter the Author birthday' value=authorBirth).
        
         label(for='deathDate') Enter date of death: 
-        input(id='deathDate' type='date' name='deathDate' placeholder='Enter the Author deathday').
+        input(id='deathDate' type='date' name='deathDate' placeholder='Enter the Author deathday' value=authorDeath).
+
+        input(type="text" class="hidden" value=id name="id")
         input(type='submit' value='OK')
 
 

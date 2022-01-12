@@ -1,11 +1,9 @@
 extends ../layout
 block content
-    form(action='create' method='post')
-
-
+    form(action='update' method='post')
         label(for='cdTitle') Enter title: 
-        input(id='cdTitle' type='text' name='cdTitle' placeholder='Enter the cd Title')
-
+        input(id='cdTitle' type='text' name='cdTitle' placeholder='Enter the cd Title' value=cd[0].title)
+        input(type="text" name="id" value=cd[0].id class="hidden")
         label(for='cdAuthor') Enter Author: 
         select(id='cdAuthor' type='select' name='cdAuthor')
             if cdAuthors
@@ -13,21 +11,20 @@ block content
                     option(value=cdAuthor.id) #{cdAuthor.name} 
 
         label(for='cdDescription') Enter description: 
-        input(id='cdDescription' type='text' name='cdDescription' placeholder='Enter the cd description')
+        input(id='cdDescription' type='text' value=cd[0].description name='cdDescription' placeholder='Enter the cd description')
       
         label(for='cdPrice') Enter price: 
-        input(id='cdPrice' type='number' name='cdPrice' placeholder='Enter the cd price')
+        input(id='cdPrice' type='number' name='cdPrice' value=cd[0].price placeholder='Enter the cd price')
        
         label(for='cdStock') Enter stock: 
-        input(id='cdStock' type='number' name='cdStock' placeholder='Enter the cd stock')
+        input(id='cdStock' type='number' value=cd[0].stock name='cdStock' placeholder='Enter the cd stock')
     
 
         label(for='cdGenre') Enter genre: 
+        select(id='cdAuthor' type='select' name='cdAuthor')
             if cdGenres
                 for cdGenre in cdGenres
-                    input(id='cdGenre' type='checkbox' name='cdGenre' value=cdGenre.id) 
-                    span #{cdGenre.name}
-
+                    option(value=cdGenre.id) #{cdGenre.name} 
 
 
         input(type='submit' value='OK')

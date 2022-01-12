@@ -14,6 +14,7 @@ block content
     for author in genreAuthors 
       li 
         a(href="../author/"+author.id ) #{author.name}
+  img(src=imageSrc, alt="genre image")
   
   form(action=genre.id+"/delete" method='post')
      input(type="text" value=genre.id class="hidden" name="genreId")

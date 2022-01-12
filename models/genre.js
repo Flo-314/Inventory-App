@@ -4,6 +4,8 @@ var Schema = mongoose.Schema;
 let GenreSchema = new Schema(
   {
     name: {type: String, required: true, maxLength: 75},
+    image: { type: Schema.Types.ObjectId, ref: "Image" },
+
 }
 );
 

@@ -23,7 +23,10 @@ nav ul{
   align-items: center;
   gap: 2em;
 }
-
+img{
+  max-width: 500px;
+  max-height: 500px;
+}
 header a {
   color: white;
 }

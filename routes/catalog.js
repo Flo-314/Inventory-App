@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+const multer  = require('multer')
+const upload = multer()
 
 // Require controller modules.
 var cd_controller = require('../controllers/cdController');
@@ -63,7 +65,7 @@ router.get('/authors', author_controller.author_list);
 router.get('/genre/create', genre_controller.genre_create_get);
 
 //POST request for creating Genre.
-router.post('/genre/create', genre_controller.genre_create_post);
+router.post('/genre/create', upload.single("genreImage"), genre_controller.genre_create_post);
 
 // POST request to delete Genre.
 router.post('/genre/:id/delete', genre_controller.genre_delete_post);

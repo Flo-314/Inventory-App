@@ -5,6 +5,8 @@ var Genre = require("../models/genre");
 var async = require("async");
 const { body, validationResult } = require("express-validator");
 const genre = require("../models/genre");
+const multer = require("multer");
+const Image = require("../models/image");
 
 // Display list of all Genre.
 exports.genre_list = async function (req, res) {
@@ -14,7 +16,7 @@ exports.genre_list = async function (req, res) {
 
 // Display detail page for a specific Genre.
 exports.genre_detail = async function (req, res) {
-  let genre = await Genre.findById(req.params.id);
+  let genre = await Genre.findById(req.params.id).populate("image") ;
   let genreCds = await Cd.find({ genre: req.params.id }).populate("author");
 
   let genreAuthors = [];
@@ -26,6 +28,7 @@ exports.genre_detail = async function (req, res) {
     genre: genre,
     genreCds: genreCds,
     genreAuthors: genreAuthors,
+    imageSrc: genre.image.src
   });
 };
 
@@ -44,6 +47,7 @@ exports.genre_create_post = [
 
   // Process request after validation and sanitization.
   async (req, res, next) => {
+    console.log(req.file);
     const errors = validationResult(req);
     // si hay errrores
     if (!errors.isEmpty()) {
@@ -54,10 +58,27 @@ exports.genre_create_post = [
       let search = await Genre.findOne({ name: req.body.genreName });
       // si no existe el genero
       if (search === null || search.length === 0) {
-        let newGenre = new Genre({ name: req.body.genreName });
+        // primero crea la imagen
+        console.log(req.file);
+        let newImage = new Image({
+          name: req.file.fieldname,
+          desc: req.file.originalname,
+          img: {
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+          },
+        });
+        newImage.save((err) => {
+          if (err){
+            return next(err)
+          }
+        })
+        //despues crea el genero con la imagen asociada
+
+        let newGenre = new Genre({ name: req.body.genreName, image: newImage.id });
         newGenre.save((err) => {
           if (err) {
-            return next(error);
+            return next(err);
           }
           url = "/catalog/genre/" + newGenre.id;
           res.redirect(url);
@@ -92,7 +113,7 @@ exports.genre_update_post = async function (req, res, next) {
   await Genre.updateOne(
     { _id: req.body.genreId },
     { $set: { name: req.body.genreName } }
-  )
+  );
 
   res.redirect("/catalog/genre/" + req.body.genreId);
 };

@@ -4,6 +4,7 @@ var Author = require("../models/author");
 var Genre = require("../models/genre");
 var async = require("async");
 const { body, validationResult } = require("express-validator");
+const Image = require("../models/image");
 
 // Display list of all Authors.
 exports.author_list = async function (req, res) {
@@ -13,7 +14,7 @@ exports.author_list = async function (req, res) {
 
 // Display detail page for a specific Author.
 exports.author_detail = async function (req, res) {
-  let author = await Author.findById(req.params.id);
+  let author = await Author.findById(req.params.id).populate("image");
   let authorCds = await Cd.find({ author: req.params.id });
   let authorGenre = await Cd.find({ author: req.params.id }, "genres").populate(
     "genre"
@@ -22,11 +23,21 @@ exports.author_detail = async function (req, res) {
     let genreArray = genre.genre;
     authorGenre = genreArray;
   });
+  if(author.image){
+  await res.render("author/author_detail", {
+    author: author,
+    authorCds: authorCds,
+    authorGenre: authorGenre,
+    imageSrc: author.image.src,
+  });
+}
+else{
   await res.render("author/author_detail", {
     author: author,
     authorCds: authorCds,
     authorGenre: authorGenre,
   });
+}
 };
 
 // Display Author create form on GET.
@@ -53,6 +64,7 @@ exports.author_create_post = [
   // Process request after validation and sanitization.
   async (req, res, next) => {
     const errors = validationResult(req);
+    console.log(req.body);
     // si hay errrores
 
     if (!errors.isEmpty()) {
@@ -63,10 +75,25 @@ exports.author_create_post = [
       let search = await Author.findOne({ name: req.body.genreName });
       // si no existe el author
       if (search === null || Author.length === 0) {
+        let newImage = new Image({
+          name: req.file.fieldname,
+          desc: req.file.originalname,
+          img: {
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+          },
+        });
+        newImage.save((err) => {
+          if (err) {
+            return next(err);
+          }
+        });
+
         let newAuthor = new Author({
           name: req.body.authorName,
           date_of_birth: req.body.birthDate,
           date_of_death: req.body.deathDate,
+          image: newImage.id,
         });
         newAuthor.save((err) => {
           if (err) {
@@ -125,7 +152,7 @@ exports.author_update_post = [
     // si hay errrores
 
     if (!errors.isEmpty()) {
-      res.redirect("/catalog/author/" + req.body.id)
+      res.redirect("/catalog/author/" + req.body.id);
       //si no hay errores
     } else {
       let search = await Author.findOne({ name: req.body.authorName });
@@ -141,12 +168,11 @@ exports.author_update_post = [
               id: req.body.authorId,
             },
           }
-        )
-        res.redirect("/catalog/author/" + req.body.id)
+        );
+        res.redirect("/catalog/author/" + req.body.id);
       } else {
-        res.redirect("/catalog/author/" + req.body.id)
+        res.redirect("/catalog/author/" + req.body.id);
       }
     }
   },
-
 ];

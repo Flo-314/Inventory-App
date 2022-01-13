@@ -12,6 +12,15 @@ block content
                 for cdAuthor in cdAuthors
                     option(value=cdAuthor.id) #{cdAuthor.name} 
 
+        label(for='cdGenre') Enter genre: 
+            select(id='cdGenre' type='select' name='cdGenre')
+                if cdGenres
+                    for cdGenre in cdGenres
+                        option(value=cdGenre.id) #{cdGenre.name} 
+
+
+
+
         label(for='cdDescription') Enter description: 
         input(id='cdDescription' type='text' name='cdDescription' placeholder='Enter the cd description')
 
@@ -20,16 +29,6 @@ block content
 
         label(for='cdStock') Enter stock: 
         input(id='cdStock' type='number' name='cdStock' placeholder='Enter the cd stock')
-
-
-
-        label(for='cdGenre') Enter genre: 
-        select(id='cdAuthor' type='select' name='cdAuthor')
-            if cdGenres
-                for cdGenre in cdGenres
-                    option(value=cdGenre.id) #{cdGenre.name} 
-
-
 
 
         input(type="file" name="cdImage")

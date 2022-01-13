@@ -8,6 +8,8 @@ let CdSchema = new Schema({
   price: { type: Number },
   stock: { type: Number },
   genre: [{ type: Schema.ObjectId, ref: "Genre" }],
+  image: { type: Schema.Types.ObjectId, ref: "Image" },
+
 });
 CdSchema.virtual("url").get(function () {
   return "/catalog/cd/" + this._id;

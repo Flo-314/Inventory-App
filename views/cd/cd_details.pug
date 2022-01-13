@@ -11,6 +11,9 @@ block content
    for genre in cd.genre 
 
       a(href="../genre/"+genre.id)=genre.name  
+   
+   if imageSrc
+      img(src=imageSrc, alt="genre image")
 
 
    form(action=cd.id+"/delete" method='post')

@@ -24,12 +24,21 @@ exports.genre_detail = async function (req, res) {
   genreCds.forEach((cd) => {
     genreAuthors.push(cd.author);
   });
+  if(genre.image){
   await res.render("genre/genre_details", {
     genre: genre,
     genreCds: genreCds,
     genreAuthors: genreAuthors,
     imageSrc: genre.image.src
   });
+}
+else{
+  await res.render("genre/genre_details", {
+    genre: genre,
+    genreCds: genreCds,
+    genreAuthors: genreAuthors,
+  });
+}
 };
 
 // Display Genre create form on GET.

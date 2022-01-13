@@ -5,6 +5,7 @@ var Genre = require("../models/genre");
 var async = require("async");
 const { body, validationResult } = require("express-validator");
 const genre = require("../models/genre");
+const Image = require("../models/image");
 
 exports.index = async function (req, res) {
   async.parallel(
@@ -32,15 +33,22 @@ exports.index = async function (req, res) {
 
 // Display list of all cds.
 exports.cd_list = async function (req, res) {
-  let cdList = await Cd.find({}).sort({ title: 1 }).populate("author genre");
-  await res.render("cd/cd_list", { cdList: cdList });
+  let cdList = await Cd.find({})
+    .sort({ title: 1 })
+    .populate("author genre image");
+  await res.render("cd/cd_list", {
+    cdList: cdList,
+  });
 };
 
 // Display detail page for a specific cd.
 exports.cd_detail = async function (req, res) {
-  let cd = await Cd.findById(req.params.id).populate("author genre");
-
-  await res.render("cd/cd_details", { cd: cd });
+  let cd = await Cd.findById(req.params.id).populate("author genre image");
+  if (cd.image) {
+    await res.render("cd/cd_details", { cd: cd, imageSrc: cd.image.src });
+  } else {
+    await res.render("cd/cd_details", { cd: cd });
+  }
 };
 
 // Display cd create form on GET.
@@ -81,6 +89,8 @@ exports.cd_create_post = [
   async (req, res, next) => {
     const errors = validationResult(req);
     // si hay errrores
+
+    console.log(req.body);
     if (!errors.isEmpty()) {
       let authors = await Author.find({});
       let genres = await Genre.find({});
@@ -93,6 +103,20 @@ exports.cd_create_post = [
       let url = "/";
       let search = await Cd.findOne({ title: req.body.cdTitle });
       // si no existe el genero
+      let newImage = new Image({
+        name: req.file.fieldname,
+        desc: req.file.originalname,
+        img: {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        },
+      });
+      newImage.save((err) => {
+        if (err) {
+          return next(err);
+        }
+      });
+
       if (search === null || search.length === 0) {
         let newCd = new Cd({
           title: req.body.cdTitle,
@@ -101,6 +125,7 @@ exports.cd_create_post = [
           genre: req.body.cdGenre,
           stock: req.body.cdStock,
           price: req.body.cdPrice,
+          image: newImage.id,
         });
         newCd.save((err) => {
           if (err) {
@@ -172,21 +197,20 @@ exports.cd_update_post = [
     if (!errors.isEmpty()) {
       res.redirect("/catalog/cd/" + req.body.id);
     } else {
-     
-        await Cd.updateOne(
-          { _id: req.body.id },
-          {
-            $set: {
-              title: req.body.cdTitle,
-              author: req.body.cdAuthor,
-              description: req.body.cdDescription,
-              price: req.body.cdPrice,
-              stock: req.body.cdStock,
-              genre: req.body.cdGenre,
-            },
-          }
-        );
-        res.redirect("/catalog/cd/" + req.body.id);
+      await Cd.updateOne(
+        { _id: req.body.id },
+        {
+          $set: {
+            title: req.body.cdTitle,
+            author: req.body.cdAuthor,
+            description: req.body.cdDescription,
+            price: req.body.cdPrice,
+            stock: req.body.cdStock,
+            genre: req.body.cdGenre,
+          },
+        }
+      );
+      res.redirect("/catalog/cd/" + req.body.id);
     }
   },
 ];
